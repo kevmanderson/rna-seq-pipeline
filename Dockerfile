@@ -32,25 +32,41 @@ RUN cd zlib-1.2.11 && ./configure && make && make install && rm ../zlib-1.2.11.t
 RUN wget https://tukaani.org/xz/xz-5.2.3.tar.gz && tar -xvf xz-5.2.3.tar.gz
 RUN cd xz-5.2.3 && ./configure && make && make install && rm ../xz-5.2.3.tar.gz
 
+# KMA - Install STAR 2.7.8a
+RUN wget https://github.com/alexdobin/STAR/archive/2.7.8a.tar.gz && tar -xzf 2.7.8a.tar.gz
+RUN cd STAR-2.7.8b && make STAR && rm ../2.7.8a.tar.gz
+ENV PATH="/software/STAR-2.7.8b/bin/Linux_x86_64:${PATH}"
+
 # Install STAR 2.5.1b
-RUN wget https://github.com/alexdobin/STAR/archive/2.5.1b.tar.gz && tar -xzf 2.5.1b.tar.gz
-RUN cd STAR-2.5.1b && make STAR && rm ../2.5.1b.tar.gz
-ENV PATH="/software/STAR-2.5.1b/bin/Linux_x86_64:${PATH}"
+#RUN wget https://github.com/alexdobin/STAR/archive/2.5.1b.tar.gz && tar -xzf 2.5.1b.tar.gz
+#RUN cd STAR-2.5.1b && make STAR && rm ../2.5.1b.tar.gz
+#ENV PATH="/software/STAR-2.5.1b/bin/Linux_x86_64:${PATH}"
 
 # Install Kallisto 0.44.0
 RUN wget https://github.com/pachterlab/kallisto/releases/download/v0.44.0/kallisto_linux-v0.44.0.tar.gz && tar -xzf kallisto_linux-v0.44.0.tar.gz
 ENV PATH="/software/kallisto_linux-v0.44.0:${PATH}"
 
-# Install Samtools 1.9
-RUN git clone --branch 1.9 --single-branch https://github.com/samtools/samtools.git && \
-    git clone --branch 1.9 --single-branch git://github.com/samtools/htslib.git && \
+# KMA - Install Samtools 1.11
+RUN git clone --branch 1.11 --single-branch https://github.com/samtools/samtools.git && \
+    git clone --branch 1.11 --single-branch git://github.com/samtools/htslib.git && \
     cd samtools && make && make install && cd ../ && rm -rf samtools* htslib*
 
+# KMA - Install RSEM 1.3.3
+RUN wget https://github.com/deweylab/RSEM/archive/v1.3.3.zip
+RUN unzip v1.3.3.zip && rm v1.3.3.zip
+RUN cd RSEM-1.3.3 && make
+ENV PATH="/software/RSEM-1.3.3:${PATH}"
+
+# Install Samtools 1.9
+#RUN git clone --branch 1.9 --single-branch https://github.com/samtools/samtools.git && \
+#    git clone --branch 1.9 --single-branch git://github.com/samtools/htslib.git && \
+#    cd samtools && make && make install && cd ../ && rm -rf samtools* htslib*
+
 # Install RSEM 1.2.31
-RUN wget https://github.com/deweylab/RSEM/archive/v1.2.31.zip
-RUN unzip v1.2.31.zip && rm v1.2.31.zip
-RUN cd RSEM-1.2.31 && make
-ENV PATH="/software/RSEM-1.2.31:${PATH}"
+#RUN wget https://github.com/deweylab/RSEM/archive/v1.2.31.zip
+#RUN unzip v1.2.31.zip && rm v1.2.31.zip
+#RUN cd RSEM-1.2.31 && make
+#ENV PATH="/software/RSEM-1.2.31:${PATH}"
 
 # Install kentutils 385
 RUN git clone https://github.com/ENCODE-DCC/kentutils_v385_bin_bulkrna.git
